@@ -8,9 +8,30 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
+    <Button
+        android:id="@+id/server"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Server" />
+
+    <Button
+        android:id="@+id/client"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/server"
+        android:layout_below="@+id/server"
+        android:layout_marginTop="20dp"
+        android:text="Client" />
+
+    <Button
+        android:id="@+id/play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/client"
+        android:layout_below="@+id/client"
+        android:layout_marginTop="24dp"
+        android:text="Play" />
 
 </RelativeLayout>
