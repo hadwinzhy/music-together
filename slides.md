@@ -23,7 +23,8 @@
 <!SLIDE bullets>
 # 接下来做什么 #
 
-* ？？
+* 局域网server发现
+* music传输
 
 <!SLIDE bullets incremental transition=fade>
 # 每位成员当天的经历 #
