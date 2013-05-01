@@ -1,56 +1,58 @@
 package com.example.musictogether;
 
-import com.example.musictogether.client.MyClient;
-import com.example.musictogether.server.MyServer;
-
+import com.example.musictogether.R;
+import android.app.TabActivity;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TabHost;
 
-public class MainActivity extends Activity implements OnClickListener {
-	public static final String TAG = "MusicTogether";
-	
-	private Button serverBt, clientBt, playBt;
+public class MainActivity extends TabActivity {
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        Log.i("KICOOL", "onCreate");
+        
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+        		WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.main);
+        
+        Resources res = getResources(); 
+        TabHost tabHost = getTabHost(); 
+        TabHost.TabSpec spec; 
+        Intent intent;  
+        intent = new Intent().setClass(this, ListActivity.class);
+        spec = tabHost.newTabSpec("����").setIndicator("����",
+                          res.getDrawable(R.drawable.item))
+                      .setContent(intent);
+        tabHost.addTab(spec);
+    /*    
+        intent = new Intent().setClass(this, ArtistsActivity.class);
+        spec = tabHost.newTabSpec("������").setIndicator("������",
+                          res.getDrawable(R.drawable.artist))
+                      .setContent(intent);
+        tabHost.addTab(spec);
 
-	private MyServer s; 
-	
-	@Override 
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		serverBt = (Button) this.findViewById(R.id.server);
-		clientBt = (Button) this.findViewById(R.id.client);
-		playBt = (Button) this.findViewById(R.id.play);
+        intent = new Intent().setClass(this, AlbumsActivity.class);
+        spec = tabHost.newTabSpec("ר��").setIndicator("ר��",
+                          res.getDrawable(R.drawable.album))
+                      .setContent(intent);
+        tabHost.addTab(spec);
+        */
+        intent = new Intent().setClass(this, SongsActivity.class);
+        spec = tabHost.newTabSpec("��������").setIndicator("��������",
+                          res.getDrawable(R.drawable.album))
+                      .setContent(intent);
+        tabHost.addTab(spec);
+        
 
-		playBt.setOnClickListener(this);
-		serverBt.setOnClickListener(this);
-		clientBt.setOnClickListener(this);
-	}
+        tabHost.setCurrentTab(0);
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.server:
-			s = new MyServer();
-			new Thread(s).start();
-			break;
-		case R.id.client:
-			new Thread(new  MyClient()).start();
-			break;
-		case R.id.play:
-			if(s != null)
-				s.sendPlayItem();
-		}
-	}
-
+    }
 }
