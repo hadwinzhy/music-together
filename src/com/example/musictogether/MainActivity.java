@@ -1,6 +1,8 @@
 package com.example.musictogether;
 
 import com.example.musictogether.R;
+import com.example.musictogether.client.MyClient;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -53,6 +55,11 @@ public class MainActivity extends TabActivity {
         
 
         tabHost.setCurrentTab(0);
-
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+		new Thread(new  MyClient(this)).start();
     }
 }

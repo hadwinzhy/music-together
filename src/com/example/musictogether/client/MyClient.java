@@ -9,16 +9,29 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.example.musictogether.MainActivity;
+import com.example.musictogether.MusicActivity;
+import com.example.musictogether.MusicService;
 import com.example.musictogether.server.MyServer;
 
 public class MyClient implements Runnable {
 
 	public static final String TEST_NETWORK = "test network";
 	public static final String PLAY = "play";
-	
+
+	private Context context;
+
+	public MyClient(Context context) {
+		this.context = context;
+	}
+
 	public void startSyncTime() {
 
 	}
@@ -36,19 +49,23 @@ public class MyClient implements Runnable {
 			PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())),
 					true);
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			
+
 			while (true) {
 				String str = in.readLine();
-				if(str.equals(TEST_NETWORK)){
+				if (str.equals(TEST_NETWORK)) {
 					out.println(MyServer.RESPONSE_TEST_NETWORK);
-				}else if(str.equals(PLAY)){
+				} else if (str.equals(PLAY)) {
 					Log.v("MusicClient", "play");
+
+					Intent intent = new Intent(context, MusicService.class);
+					intent.putExtra("play", "syncplay");
+					intent.putExtra("offset", 1);
+					context.startService(intent);
 				}
 			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
