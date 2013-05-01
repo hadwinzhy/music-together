@@ -87,15 +87,18 @@ public class MusicService extends Service implements Runnable {
 		} else if (play.equals("last")) {
 			int id = intent.getIntExtra("id", 0);
 			playSyncMusic(id);
+		} else if (play.equals("syncplay")) {
+			int id = intent.getIntExtra("id", 0);
+			int offset = intent.getIntExtra("offset", 0);
+			playMusic(id, offset);
 		}
-
 	}
 	
 	private void playSyncMusic(int id) {
-		playMusic(id);
+		playMusic(id, 0);
 	}
 	
-	private void playMusic(int id) {
+	private void playMusic(int id, int offset) {
 
 		if (null != player) {
 			player.release();
@@ -124,8 +127,14 @@ public class MusicService extends Service implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		player.start();
+		
+		if (offset != 0) {
+			Log.i("KICOOL", "Offset:" + offset);
+			mHandler.postDelayed(mRunnable, offset);
+		}
+		else {
+			player.start();
+		}
 		player.setOnCompletionListener(new OnCompletionListener() {
 
 			@Override
@@ -217,19 +226,14 @@ public class MusicService extends Service implements Runnable {
 		}
 	}
 
-
-	// 歌词滚动线程
-	/*
 	Handler mHandler = new Handler();
 
 	Runnable mRunnable = new Runnable() {
-
 		@Override
 		public void run() {
-			mHandler.postDelayed(mRunnable, 100);
+			player.start();
 		}
 	};
-	 */
 	
 	// 初始化歌词检索值
 	private int index = 0;

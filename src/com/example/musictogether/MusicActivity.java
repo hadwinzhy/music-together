@@ -40,7 +40,6 @@ public class MusicActivity extends Activity {
 	private ImageButton imageBtnNext;
 	private ImageButton imageBtnLoop;
 	private ImageButton imageBtnRandom;
-	public static LrcView lrc_view;
 	private ImageView icon;
 	private SeekBar seekBar1;
 	private AudioManager audioManager;// 音量管理者
@@ -78,7 +77,6 @@ public class MusicActivity extends Activity {
 		imageBtnLoop = (ImageButton) this.findViewById(R.id.music_loop);
 		seekBarVolume = (SeekBar) this.findViewById(R.id.music_volume);
 		imageBtnRandom = (ImageButton) this.findViewById(R.id.music_random);
-		lrc_view = (LrcView) findViewById(R.id.LyricShow);
 
 		imageBtnLast.setOnClickListener(new MyListener());
 		imageBtnRewind.setOnClickListener(new MyListener());
